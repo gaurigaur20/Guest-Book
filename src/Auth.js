@@ -19,7 +19,7 @@ function Auth({ loggedInHandler }) {
         const credential = result.credential;
 
         const token = credential.accessToken;
-        // The signed-in user info.
+
         const user = result.user;
         // console.log(user);
         if (user) {
@@ -38,15 +38,12 @@ function Auth({ loggedInHandler }) {
   };
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      // User is signed in.
       setUserLoggedInMessage(true);
       SetuserName(user.displayName);
       SetuserEmail(user.email);
       loggedInHandler(true, user.email);
     } else {
-      // No user is signed in.
       console.log("no user signed in");
-      // setUserLoggedInMessage(true);
     }
   });
   const signOut = () => {
@@ -55,7 +52,7 @@ function Auth({ loggedInHandler }) {
       .signOut()
       .then(() => {
         // Sign-out successful.
-        console.log("sign out");
+        // console.log("sign out");
         loggedInHandler(false);
         setUserLoggedInMessage(false);
       })

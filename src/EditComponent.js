@@ -1,11 +1,35 @@
 import React, { useState } from "react";
 
-function EditComponent({ messageToEdit, nameToEdit, cancelEventHandler }) {
+import firebase from "firebase/app";
+
+import "firebase/database";
+
+import Config from "./Config";
+
+function EditComponent({
+  messageToEdit,
+  nameToEdit,
+  userId,
+  cancelEventHandler,
+  submitEventHandler,
+}) {
   const [editName, setEditName] = useState(nameToEdit);
   const [editMessage, setEditMessage] = useState(messageToEdit);
 
-  console.log("name to edit", editName);
-  console.log("message to edit", editMessage);
+  function submitData() {
+    const dbRef = firebase.database().ref();
+    const userRef = dbRef.child(`users/${userId}`);
+    alert("data updated succesfully");
+    userRef.update({
+      Message: editMessage,
+      Name: editName,
+    });
+  }
+  const submitEvent = () => {
+    document.querySelector(".edit").style.display = "none";
+    submitEventHandler(true, "");
+    submitData();
+  };
 
   const cancelStatement = () => {
     document.querySelector(".edit").style.display = "none";
@@ -23,7 +47,7 @@ function EditComponent({ messageToEdit, nameToEdit, cancelEventHandler }) {
         <br />
         <input value={editName} onChange={(e) => setEditName(e.target.value)} />
         <br />
-        <button>Submit</button>
+        <button onClick={submitEvent}>Submit</button>
         <button onClick={cancelStatement}>Cancel</button>
       </div>
     </>

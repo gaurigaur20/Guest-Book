@@ -32,6 +32,7 @@ function Home() {
   const [email, setEmail] = useState("");
   const [editID, setEditID] = useState("");
   const [cancel, setCancel] = useState(false);
+  const [submit, setsubmit] = useState(false);
 
   // console.log("original data: ", data);
   const data2 = Object.values(data);
@@ -49,6 +50,10 @@ function Home() {
   }, [data]);
 
   const writeData = () => {
+    const dbRef = firebase.database().ref("users");
+    const dbchild = dbRef.push();
+    const key = dbchild.getKey();
+
     const user = {
       Message: message,
       Name: name,
@@ -56,14 +61,10 @@ function Home() {
       LogggedIn: loggedIn,
       Email: email,
       CurrentTime: currentTime,
+      UserId: key,
     };
     if (message && name) {
-      firebase
-        .database()
-        .ref("users/")
-        .push()
-        .set(user)
-        .then((x) => updateUsers());
+      dbchild.set(user).then(() => updateUsers());
       setMessage("");
       setName("");
     } else {
@@ -133,46 +134,43 @@ function Home() {
                     <button
                       type="button"
                       className="editBtn"
-                      onClick={(e) => {
+                      onClick={() => {
                         setEditID(index);
-                        // e.target.style.display = "none";
+                      }}
+                      style={{
+                        display: editID === index ? "none" : "inline-block",
                       }}
                     >
                       Edit
                     </button>
-                    <button type="button">Delete</button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const userRef = firebase
+                          .database()
+                          .ref(`users/${e.UserId}`);
+                        alert("data removed successfully");
+                        return userRef.remove();
+                      }}
+                    >
+                      Delete
+                    </button>
                   </div>
                   {editID === index && (
                     <EditComponent
                       messageToEdit={e.Message}
                       nameToEdit={e.Name}
+                      userId={e.UserId}
                       cancelEventHandler={(isCanceled, isEdited) => {
                         setCancel(isCanceled);
                         setEditID(isEdited);
                       }}
+                      submitEventHandler={(isSubmitted, isEdited) => {
+                        setsubmit(isSubmitted);
+                        setEditID(isEdited);
+                      }}
                     />
                   )}
-                  {/* will see that part after some time ...............
-                  .................
-                  
-                  
-                  
-                  
-                  */}
-                  {/* {cancel &&
-                    editID === "" &&
-                    (document.querySelector(".editBtn").style.display =
-                      "inline-block")} 
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      */}
                 </>
               ) : (
                 <div style={{ display: "none" }}>
