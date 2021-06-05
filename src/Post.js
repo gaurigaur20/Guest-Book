@@ -1,18 +1,22 @@
 import React from "react";
 
+import "./Post.css";
+
 function Post({ currentTime, message, name }) {
   return (
-    <>
+    <div>
       <div>
-        <pre>
+        <div>
           <p>
-            "{message}" - posted by {name}
+            "{message}"<br />
+            <br />
+            <span>- posted by &nbsp;'{name}'</span>
             <br />
             <small>{currentTime}</small>
           </p>
-        </pre>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

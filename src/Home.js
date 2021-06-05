@@ -9,6 +9,8 @@ import EditComponent from "./EditComponent";
 import Auth from "./Auth";
 import Post from "./Post";
 
+import "./Home.css";
+
 // const database = firebase.database();
 
 async function fetchUsersData() {
@@ -78,107 +80,114 @@ function Home() {
 
   return (
     <>
-      <div>
-        <h1>Guest Book</h1>
-        <Auth
-          loggedInHandler={(isLoggedIn, Email) => {
-            setLoggedIn(isLoggedIn);
-            setEmail(Email);
-          }}
-        />
-        <h3>
-          Welcome to the guest book! Please leave a message, whether a joke, a
-          favourite quote or lyric, or just a simple 'hello'!
-        </h3>
-        <div>
-          <form onSubmit={formOnSubmit}>
-            <label>
-              <textarea
-                rows="4"
-                cols="40"
-                name="message"
-                placeholder="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                disabled={!loggedIn}
-              ></textarea>
-            </label>
-            <br />
-            <label>
-              <input
-                type="text"
-                placeholder="name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={!loggedIn}
-              />
-            </label>
+      <div className="guest-book">
+        <div className="input-panel">
+          <h1>Guest Book</h1>
+          <Auth
+            loggedInHandler={(isLoggedIn, Email) => {
+              setLoggedIn(isLoggedIn);
+              setEmail(Email);
+            }}
+            className="auth"
+          />
+          <h3>
+            Welcome to the guest book! Please leave a message, whether a joke, a
+            favourite quote or lyric, or just a simple 'hello'!
+          </h3>
+          <div className="form-input">
+            <form onSubmit={formOnSubmit}>
+              <label>
+                <textarea
+                  rows="4"
+                  cols="40"
+                  name="message"
+                  placeholder="send your greetings, but first, you gotta sign in "
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  disabled={!loggedIn}
+                ></textarea>
+              </label>
+              <br />
+              <label>
+                <input
+                  type="text"
+                  placeholder="name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={!loggedIn}
+                />
+              </label>
 
-            <br />
-            <button type="button" onClick={writeData} disabled={!loggedIn}>
-              Post
-            </button>
-          </form>
+              <br />
+              <button type="button" onClick={writeData} disabled={!loggedIn}>
+                Post
+              </button>
+            </form>
+          </div>
           <h3>Previous Greetings:</h3>
           {Object.values(data2).map((e, index) => (
-            <>
-              <Post
-                currentTime={e.CurrentTime}
-                message={e.Message}
-                name={e.Name}
-              />
-              {e.LogggedIn && loggedIn && e.Email === email ? (
-                <>
-                  <div key={email} style={{ display: "block" }}>
-                    <button
-                      type="button"
-                      className="editBtn"
-                      onClick={() => {
-                        setEditID(index);
-                      }}
-                      style={{
-                        display: editID === index ? "none" : "inline-block",
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const userRef = firebase
-                          .database()
-                          .ref(`users/${e.UserId}`);
-                        alert("data removed successfully");
-                        return userRef.remove();
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                  {editID === index && (
-                    <EditComponent
-                      messageToEdit={e.Message}
-                      nameToEdit={e.Name}
-                      userId={e.UserId}
-                      cancelEventHandler={(isCanceled, isEdited) => {
-                        setCancel(isCanceled);
-                        setEditID(isEdited);
-                      }}
-                      submitEventHandler={(isSubmitted, isEdited) => {
-                        setsubmit(isSubmitted);
-                        setEditID(isEdited);
-                      }}
-                    />
+            <div className="post">
+              <div className="post-greetings">
+                <div className="greetings">
+                  <Post
+                    currentTime={e.CurrentTime}
+                    message={e.Message}
+                    name={e.Name}
+                  />
+                  {e.LogggedIn && loggedIn && e.Email === email ? (
+                    <>
+                      <div key={email} style={{ display: "block" }}>
+                        <button
+                          type="button"
+                          className="editBtn"
+                          onClick={() => {
+                            setEditID(index);
+                          }}
+                          style={{
+                            display: editID === index ? "none" : "inline-block",
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const userRef = firebase
+                              .database()
+                              .ref(`users/${e.UserId}`);
+                            alert("data removed successfully");
+                            return userRef.remove();
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      {editID === index && (
+                        <EditComponent
+                          messageToEdit={e.Message}
+                          nameToEdit={e.Name}
+                          userId={e.UserId}
+                          cancelEventHandler={(isCanceled, isEdited) => {
+                            setCancel(isCanceled);
+                            setEditID(isEdited);
+                          }}
+                          submitEventHandler={(isSubmitted, isEdited) => {
+                            setsubmit(isSubmitted);
+                            setEditID(isEdited);
+                          }}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <div style={{ display: "none" }}>
+                      <button type="button">Edit</button>
+                      <button type="button">Delete</button>
+                    </div>
                   )}
-                </>
-              ) : (
-                <div style={{ display: "none" }}>
-                  <button type="button">Edit</button>
-                  <button type="button">Delete</button>
                 </div>
-              )}
-            </>
+              </div>
+            </div>
           ))}
         </div>
       </div>

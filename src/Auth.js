@@ -43,7 +43,7 @@ function Auth({ loggedInHandler }) {
       SetuserEmail(user.email);
       loggedInHandler(true, user.email);
     } else {
-      console.log("no user signed in");
+      // console.log("no user signed in");
     }
   });
   const signOut = () => {
@@ -72,7 +72,19 @@ function Auth({ loggedInHandler }) {
         </div>
       ) : (
         <div>
-          <button onClick={logIn}>Sign in with Google</button>
+          <button
+            onClick={logIn}
+            style={{
+              border: "none",
+              color: "#fff",
+              padding: "6px 12px",
+              borderColor: "#2e6da4",
+              borderRadius: "5px",
+              background: "#337ab7",
+            }}
+          >
+            Sign in with Google
+          </button>
         </div>
       )}
     </div>

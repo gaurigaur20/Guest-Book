@@ -1,6 +1,14 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin: 0;
+  background: linear-gradient(to right top, #b0f3f1, #ffcfdf);
 }
 
 code {
