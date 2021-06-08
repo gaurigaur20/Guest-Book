@@ -26,7 +26,7 @@ function Auth({ loggedInHandler }) {
           setUserLoggedInMessage(true);
           SetuserName(user.displayName);
           SetuserEmail(user.email);
-          loggedInHandler(true, user.email);
+          loggedInHandler(true, user.email, user.displayName);
         } else {
           setUserLoggedInMessage("User not loggedin ");
         }
@@ -41,7 +41,7 @@ function Auth({ loggedInHandler }) {
       setUserLoggedInMessage(true);
       SetuserName(user.displayName);
       SetuserEmail(user.email);
-      loggedInHandler(true, user.email);
+      loggedInHandler(true, user.email, user.displayName);
     } else {
       // console.log("no user signed in");
     }
@@ -65,10 +65,26 @@ function Auth({ loggedInHandler }) {
     <div className="App">
       {userLoggedInMessage ? (
         <div>
-          <h4>
-            Welcome <small>{userName}</small>
-          </h4>
-          <button onClick={signOut}>Logout</button>
+          {/* <h4 style={{ fontWeight: "normal" }}>
+            Welcome{" "}
+            <small style={{ fontWeight: "bold", fontStyle: "italic" }}>
+              {userName}
+            </small>
+          </h4> */}
+          <button
+            onClick={signOut}
+            style={{
+              border: "none",
+              color: "#fff",
+              padding: "6px 12px",
+              borderColor: "#2e6da4",
+              borderRadius: "5px",
+              background: "#337ab7",
+              cursor: "pointer",
+            }}
+          >
+            Logout
+          </button>
         </div>
       ) : (
         <div>
@@ -81,6 +97,7 @@ function Auth({ loggedInHandler }) {
               borderColor: "#2e6da4",
               borderRadius: "5px",
               background: "#337ab7",
+              cursor: "pointer",
             }}
           >
             Sign in with Google

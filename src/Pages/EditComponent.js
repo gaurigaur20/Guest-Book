@@ -4,7 +4,9 @@ import firebase from "firebase/app";
 
 import "firebase/database";
 
-import Config from "./Config";
+import Config from "../Config";
+
+import "./EditComponent.css";
 
 function EditComponent({
   messageToEdit,
@@ -47,8 +49,36 @@ function EditComponent({
         <br />
         <input value={editName} onChange={(e) => setEditName(e.target.value)} />
         <br />
-        <button onClick={submitEvent}>Submit</button>
-        <button onClick={cancelStatement}>Cancel</button>
+        <div>
+          <button
+            style={{
+              border: "none",
+              color: "#fff",
+              padding: "6px 12px",
+              borderColor: "#2e6da4",
+              borderRadius: "5px",
+              background: "#337ab7",
+              cursor: "pointer",
+            }}
+            onClick={submitEvent}
+          >
+            Submit
+          </button>
+          <button
+            style={{
+              border: "none",
+              color: "#fff",
+              padding: "6px 12px",
+              borderColor: "#2e6da4",
+              borderRadius: "5px",
+              background: "#337ab7",
+              cursor: "pointer",
+            }}
+            onClick={cancelStatement}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </>
   );

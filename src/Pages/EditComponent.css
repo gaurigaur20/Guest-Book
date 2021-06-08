@@ -1,0 +1,25 @@
+.edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  height: auto;
+}
+
+.edit textarea {
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border: none;
+}
+
+.edit input {
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border: none;
+}

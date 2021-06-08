@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 
 import "firebase/database";
 
-import Config from "./Config";
+import Config from "../Config";
 import EditComponent from "./EditComponent";
 import Auth from "./Auth";
 import Post from "./Post";
@@ -27,8 +27,33 @@ function Home() {
     hour12: true,
   });
 
+  const today = new Date();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const currentDate =
+    today.getDate() +
+    " " +
+    monthNames[today.getMonth()] +
+    "," +
+    today.getFullYear();
+  console.log(currentDate);
+
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [data, setData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
@@ -64,6 +89,7 @@ function Home() {
       Email: email,
       CurrentTime: currentTime,
       UserId: key,
+      Date: currentDate,
     };
     if (message && name) {
       dbchild.set(user).then(() => updateUsers());
@@ -83,17 +109,20 @@ function Home() {
       <div className="guest-book">
         <div className="input-panel">
           <h1>Guest Book</h1>
+
+          <h3>
+            Welcome <span style={{ fontWeight: "bold" }}>{userName}</span> to
+            the guest book! Please leave a message, whether a joke, a favourite
+            quote or lyric, or just a simple 'hello'!
+          </h3>
           <Auth
-            loggedInHandler={(isLoggedIn, Email) => {
+            loggedInHandler={(isLoggedIn, Email, UserName) => {
               setLoggedIn(isLoggedIn);
               setEmail(Email);
+              setUserName(UserName);
             }}
             className="auth"
           />
-          <h3>
-            Welcome to the guest book! Please leave a message, whether a joke, a
-            favourite quote or lyric, or just a simple 'hello'!
-          </h3>
           <div className="form-input">
             <form onSubmit={formOnSubmit}>
               <label>
@@ -105,6 +134,10 @@ function Home() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={!loggedIn}
+                  style={{
+                    background: loggedIn ? "#fff" : "#eee",
+                    cursor: loggedIn ? "text" : "not-allowed",
+                  }}
                 ></textarea>
               </label>
               <br />
@@ -116,11 +149,23 @@ function Home() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={!loggedIn}
+                  style={{
+                    background: loggedIn ? "#fff" : "#eee",
+                    cursor: loggedIn ? "text" : "not-allowed",
+                  }}
                 />
               </label>
 
               <br />
-              <button type="button" onClick={writeData} disabled={!loggedIn}>
+              <button
+                type="button"
+                onClick={writeData}
+                disabled={!loggedIn}
+                style={{
+                  opacity: loggedIn ? "1" : "0.5",
+                  cursor: loggedIn ? "pointer" : "not-allowed",
+                }}
+              >
                 Post
               </button>
             </form>
@@ -134,6 +179,7 @@ function Home() {
                     currentTime={e.CurrentTime}
                     message={e.Message}
                     name={e.Name}
+                    date={e.Date}
                   />
                   {e.LogggedIn && loggedIn && e.Email === email ? (
                     <>
@@ -145,6 +191,14 @@ function Home() {
                             setEditID(index);
                           }}
                           style={{
+                            border: "none",
+                            color: "#fff",
+                            padding: "6px 12px",
+                            borderColor: "#2e6da4",
+                            borderRadius: "5px",
+                            background: "#337ab7",
+                            cursor: "pointer",
+
                             display: editID === index ? "none" : "inline-block",
                           }}
                         >
@@ -152,6 +206,16 @@ function Home() {
                         </button>
                         <button
                           type="button"
+                          style={{
+                            border: "none",
+                            color: "#fff",
+                            padding: "6px 12px",
+                            borderColor: "#2e6da4",
+                            borderRadius: "5px",
+
+                            background: "#337ab7",
+                            cursor: "pointer",
+                          }}
                           onClick={() => {
                             const userRef = firebase
                               .database()

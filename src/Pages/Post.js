@@ -2,17 +2,20 @@ import React from "react";
 
 import "./Post.css";
 
-function Post({ currentTime, message, name }) {
+function Post({ currentTime, message, name, date }) {
   return (
     <div>
       <div>
         <div>
-          <p>
-            "{message}"<br />
+          <p dir="ltr">
+            <q>{message}</q>
+            <br />
             <br />
             <span>- posted by &nbsp;'{name}'</span>
             <br />
-            <small>{currentTime}</small>
+            <small>
+              ({date}&nbsp;{currentTime})
+            </small>
           </p>
         </div>
       </div>

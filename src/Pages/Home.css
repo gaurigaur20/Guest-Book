@@ -9,26 +9,23 @@
 .input-panel {
   font-size: 14px;
 }
-.input-panel .auth {
-
+.input-panel h3 {
+  font-weight: 400;
+  font-style: italic;
+}
+.input-panel h1 {
+  font-family: "Courier New", monospace;
 }
 .form-input {
   display: block;
   padding: 15px;
-  /* background: red; */
   width: 100%;
   height: auto;
 }
 .form-input input {
   opacity: 1;
   border-radius: 5px;
-  background: linear-gradient(
-    to right bottom,
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.3)
-  );
   width: 60vh;
-
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -41,17 +38,11 @@
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
-  background: linear-gradient(
-    to right bottom,
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.3)
-  );
   border: none;
 }
 .form-input button {
   border-radius: 5px;
   border: none;
-  text-align: right;
   margin-top: 5px;
   margin-left: -55vh;
   height: 34px;
@@ -61,4 +52,5 @@
   color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;
+  cursor: pointer;
 }
